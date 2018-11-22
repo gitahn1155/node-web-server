@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs');
 const fs = require('fs');
 
+const port = process.env.PORT || 3000; //process.env.PORT; in cloud server
 var app = express();
 
 hbs.registerPartials(__dirname + '/views/partials')
@@ -12,7 +13,7 @@ app.use((req, res, next) => {
   var log = `${now}: ${req.method} ${req.url}`;
 
   console.log(log);
-  fs.appendFile('message.txt', log + '\n', (err) => {
+  fs.appendFile('server.log', log + '\n', (err) => {
     if (err) throw err;
     console.log('Saved');
   });
@@ -53,6 +54,6 @@ app.get('/bad', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Server is up on port 3000');
+app.listen(port, () => {
+  console.log(`Server is up on port ${port}`);
 });
